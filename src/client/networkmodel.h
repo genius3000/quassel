@@ -218,6 +218,7 @@ public:
     virtual inline int nickCount() const { return (bool)_ircChannel ? _ircChannel->ircUsers().count() : 0; }
 
     void attachIrcChannel(IrcChannel *ircChannel);
+    IrcChannel *getChannel();
 
     /**
      * Gets the list of channel modes for a given nick.
@@ -382,6 +383,7 @@ public:
     inline QList<BufferId> allBufferIds() const { return _bufferItemCache.keys(); }
     QList<BufferId> allBufferIdsSorted() const;
     void sortBufferIds(QList<BufferId> &bufferIds) const;
+    BufferItem *findBufferItem(BufferId bufferId) const;
 
 public slots:
     void bufferUpdated(BufferInfo bufferInfo);
@@ -411,7 +413,6 @@ private:
     NetworkItem *findNetworkItem(NetworkId networkId) const;
     NetworkItem *networkItem(NetworkId networkId);
     inline BufferItem *findBufferItem(const BufferInfo &bufferInfo) const { return findBufferItem(bufferInfo.bufferId()); }
-    BufferItem *findBufferItem(BufferId bufferId) const;
     BufferItem *bufferItem(const BufferInfo &bufferInfo);
 
     void updateBufferActivity(BufferItem *bufferItem, const Message &msg);

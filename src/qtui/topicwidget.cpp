@@ -134,9 +134,19 @@ void TopicWidget::setTopic(const QModelIndex &index)
             break;
 
         case BufferInfo::ChannelBuffer:
-            newtopic = index.sibling(index.row(), 1).data().toString();
+        {
+            BufferItem *item = Client::networkModel()->findBufferItem(id);
+            ChannelBufferItem *channelItem = static_cast<ChannelBufferItem *>(item);
+            IrcChannel *channel = channelItem->getChannel();
+            QString channelMode;
+            if (channel)
+                channelMode = channel->channelModeString();
+            newtopic = QString("(%1) %2")
+                       .arg(channelMode.isEmpty() ? QString() : channelMode.trimmed())
+                       .arg(index.sibling(index.row(), 1).data().toString());
             readonly = false;
             break;
+        }
 
         case BufferInfo::QueryBuffer:
         {
@@ -229,6 +239,8 @@ void TopicWidget::on_topicEditButton_clicked()
 void TopicWidget::switchEditable()
 {
     ui.stackedWidget->setCurrentIndex(1);
+    QString cleanTopic = _topic.replace(QRegExp("^\\(.*\\)\\s+"), "");
+    ui.topicLineEdit->setPlainText(cleanTopic);
     ui.topicLineEdit->setFocus();
     ui.topicLineEdit->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     updateGeometry();
