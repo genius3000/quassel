@@ -1002,7 +1002,7 @@ void ChannelBufferItem::userModeChanged(IrcUser *ircUser)
 *****************************************/
 // we hardcode this even though we have PREFIX in network... but that wouldn't help with mapping modes to
 // category strings anyway.
-const QList<QChar> UserCategoryItem::categories = QList<QChar>() << 'q' << 'a' << 'o' << 'h' << 'v';
+const QList<QChar> UserCategoryItem::categories = QList<QChar>() << 'Y' << 'y' << 'q' << 'a' << 'o' << 'h' << 'v';
 
 UserCategoryItem::UserCategoryItem(int category, AbstractTreeItem *parent)
     : PropertyMapItem(parent),
@@ -1027,14 +1027,18 @@ QString UserCategoryItem::categoryName() const
     int n = childCount();
     switch (_category) {
     case 0:
-        return tr("%n Owner(s)", 0, n);
+        return tr("%n Oper(s)", 0, n);
     case 1:
-        return tr("%n Admin(s)", 0, n);
+        return tr("%n Owner(s)", 0, n);
     case 2:
-        return tr("%n Operator(s)", 0, n);
+        return tr("%n Owner(s)", 0, n);
     case 3:
-        return tr("%n Half-Op(s)", 0, n);
+        return tr("%n Admin(s)", 0, n);
     case 4:
+        return tr("%n Operator(s)", 0, n);
+    case 5:
+        return tr("%n Half-Op(s)", 0, n);
+    case 6:
         return tr("%n Voiced", 0, n);
     default:
         return tr("%n User(s)", 0, n);
