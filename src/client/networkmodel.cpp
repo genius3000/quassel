@@ -775,6 +775,11 @@ void ChannelBufferItem::attachIrcChannel(IrcChannel* ircChannel)
     emit dataChanged();
 }
 
+IrcChannel* ChannelBufferItem::getChannel()
+{
+    return _ircChannel;
+}
+
 QString ChannelBufferItem::nickChannelModes(const QString& nick) const
 {
     if (!_ircChannel) {
